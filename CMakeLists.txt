@@ -41,7 +41,7 @@ set(libz_src
 
 add_custom_command(
   OUTPUT ${libz_src}
-  DEPENDS ${libz_download}
+  DEPENDS libz_download
 )
 
 include_directories(
