@@ -5,7 +5,7 @@ A tool for compiling xml files to cxml/rco/rcs format
 
 Drag and Drop xml file to `psp2cxml-tool.exe`.
 
-for Console : `psp2cxml-tool.exe ./sample_plugin.xml`
+for Console : `psp2cxml-tool.exe [-d sample_plugin.d] [-o sample_plugin.rco] ./sample_plugin.xml`
 
 
 If for some reason the rco is not generated, try again via the console.

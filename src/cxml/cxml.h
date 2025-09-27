@@ -639,6 +639,7 @@ namespace cxml {
 		int CompileXml(const char *xml_path, FileProvider fileProvider = fileProvider_default);
 		int GetCxmlData(stack& cxml_image);
 		int Save(const char *path);
+		int SaveDependencies(const char *dst_path, const char *dep_path);
 
 	private:
 		enum {
@@ -729,6 +730,8 @@ namespace cxml {
 		std::map<uint32_t, uint32_t> m_idhash_map;
 		void *m_cxml_data;
 		size_t m_cxml_size;
+
+		std::vector<std::string> dependencies;
 	};
 }
 

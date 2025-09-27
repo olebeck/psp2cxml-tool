@@ -2,6 +2,7 @@
 #include "cxml/cxml.h"
 #include "rcs.h"
 #include "rco.h"
+#include <inttypes.h>
 
 
 rco::compiler::compiler(){
@@ -1567,17 +1568,14 @@ int rco::compiler::rco_fileProvider_default(tinyxml2::XMLElement *tag, const cha
 	const tinyxml2::XMLAttribute *attr = tag->FindAttribute("compress");
 
 	if(attr != NULL && strcmp(attr->Value(), "on") == 0){
-
-		char _origsize[0x40], _origsize2[0x40];
-
-		snprintf(_origsize, sizeof(_origsize), "%llu", (uint64_t)fileimage.GetSize());
-		snprintf(_origsize2, sizeof(_origsize2), "%u", (int)strtol(_origsize, NULL, 10));
-
-		if(strcmp(_origsize, _origsize2) != 0){
+		int size = fileimage.GetSize();
+		if(size < 0) {
 			printf("File size must fit in int (%u ~ %u). (%s)\n", 0, ~0, attr->Value());
 			return -1;
 		}
 
+		char _origsize[0x40];
+		snprintf(_origsize, sizeof(_origsize), "%d", size);
 		tag->SetAttribute("origsize", _origsize);
 
 		res = fileimage.Compress();

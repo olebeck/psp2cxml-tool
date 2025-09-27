@@ -382,6 +382,7 @@ int cxml::compiler::xml_tag_preparate_file_callback(tinyxml2::XMLDocument *doc, 
 				uint32_t offset;
 				cxml::stack fileimage;
 				std::string path = pCompiler->m_base_path + "/" + attr->Value();
+				pCompiler->dependencies.push_back(path);
 
 				int res = pCompiler->m_fileProvider(tag, path.c_str(), fileimage, NULL);
 				if(res < 0){
@@ -962,5 +963,36 @@ int cxml::compiler::Save(const char *path){
 	fclose(fp);
 	fp = NULL;
 
+	return res;
+}
+
+
+int cxml::compiler::SaveDependencies(const char *dst_path, const char *dep_path){
+
+	int res;
+	FILE *fp;
+
+	fp = fopen(dep_path, "wb");
+	if(fp == NULL){
+		return -1;
+	}
+
+	res = fprintf(fp, "%s: ", dst_path);
+	if(res == 0){
+		fclose(fp);
+		return -1;
+	}
+
+	for(const auto& file_path : this->dependencies) {
+		res = fprintf(fp, "%s ", file_path.c_str());
+		if(res == 0){
+			res = -1;
+			break;
+		}
+		res = 0;
+	}
+
+	fclose(fp);
+	fp = NULL;
 	return res;
 }
