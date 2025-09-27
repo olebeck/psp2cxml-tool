@@ -70,7 +70,7 @@ int main(int argc, char *argv[]) {
 		if (ext != NULL && strcmp(ext, ".xml") == 0) {
 			filename_length -= 4;
 		}
-		dst_path.assign(src_path, filename_length);
+		dst_path.assign(src_path, 0, filename_length);
 		dst_path += ".rco";
 	}
 
